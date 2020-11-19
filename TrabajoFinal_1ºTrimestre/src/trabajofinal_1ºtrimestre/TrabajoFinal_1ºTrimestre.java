@@ -19,7 +19,9 @@ public class TrabajoFinal_1ºTrimestre {
      */
     public static void main(String[] args) {
 
-        char respuesta = ' ';
+        //Defino la varible que representa las diferentes teclas del tablero con
+        //las cuales el jugador realizará los diferentes movimientos
+        char teclaMovimiento = ' ';
 
         final int LARGO_TABLERO = 5;
         final int ANCHO_TABLERO = 5;
@@ -37,14 +39,16 @@ public class TrabajoFinal_1ºTrimestre {
 
         //Defino el tablero de juego, que es una matriz bidimensional
         char tablero[][] = new char[LARGO_TABLERO][ANCHO_TABLERO];
+        
+        
 
         //Inicio tablero
         tablero = iniciarTablero(tablero, icoRelleno, icoBuenos, icoMalos);
+        //Muestro el tablero ya totalmente completo y funcional
         mostrarTablero(tablero);
-        //Muevo al personaje bueno, que en este primer tablero,para el jugador1, es
-        //el indio
-        movimiento(tablero, icoRelleno, vidas, respuesta, icoBuenos, x_bueno, y_bueno);
-    
+        //Pregunto al usuario en que dirección quiere mover a su personaje 
+         movimiento(tablero, teclaMovimiento, vidas, icoBuenos, x_bueno, y_bueno);
+
 //
     }
 
@@ -108,19 +112,18 @@ public class TrabajoFinal_1ºTrimestre {
      * @param x_bueno
      * @param y_bueno
      */
-    public static void movimiento(char[][] tablero, char letraMovimiento, int vidas,
-            char respuesta, char icoBuenos, int x_bueno, int y_bueno) {
+    public static void movimiento(char[][] tablero, char teclaMovimiento, int vidas,
+            char icoBuenos, int x_bueno, int y_bueno) {
 
         Scanner reader = new Scanner(System.in);
 
         while (vidas > 0) {
             System.out.println(" ");
-            
-            
-            System.out.println("¿En qué dirección quieres mover al indio?");
-            respuesta = reader.next().charAt(0);
 
-            switch (Character.toUpperCase(respuesta)) {
+            System.out.println("¿En qué dirección quieres mover al indio?");
+            teclaMovimiento = reader.next().charAt(0);
+
+            switch (Character.toUpperCase(teclaMovimiento)) {
 
                 case 'W':
                     if (x_bueno - 1 >= 0) {
