@@ -18,38 +18,27 @@ public class TrabajoFinal_1ºTrimestre {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        //Defino la varible que representa las diferentes teclas del tablero con
-        //las cuales el jugador realizará los diferentes movimientos
-        char teclaMovimiento = ' ';
-
         final int LARGO_TABLERO = 5;
         final int ANCHO_TABLERO = 5;
-
         //Defino las variable correspondientes a los jugadores y a los espacios vacíos
         final char icoRelleno = 'C';
         final char icoBuenos = 'I';
         final char icoMalos = 'V';
         int vidas = 3;
-
         //Defino las variables correspondientes a las coordenadas del personaje
         //bueno
-        int x_bueno = 0;
-        int y_bueno = 0;
-
+//        int x_bueno = 0;
+//        int y_bueno = 0;
         //Defino el tablero de juego, que es una matriz bidimensional
         char tablero[][] = new char[LARGO_TABLERO][ANCHO_TABLERO];
-        
-        
-
         //Inicio tablero
-        tablero = iniciarTablero(tablero, icoRelleno, icoBuenos, icoMalos);
+        int[] coordenadas_bueno = iniciarTablero(tablero, icoRelleno, icoBuenos, icoMalos);
         //Muestro el tablero ya totalmente completo y funcional
         mostrarTablero(tablero);
         //Pregunto al usuario en que dirección quiere mover a su personaje 
-         movimiento(tablero, teclaMovimiento, vidas, icoBuenos, x_bueno, y_bueno);
-
-//
+        while (vidas > 0) {
+            mostrarTablero(movimiento(tablero, vidas, icoBuenos, coordenadas_bueno[0], coordenadas_bueno[1]));
+        }
     }
 
     /**
@@ -62,7 +51,7 @@ public class TrabajoFinal_1ºTrimestre {
      * @param icoMalos
      * @return char [][]
      */
-    public static char[][] iniciarTablero(char[][] tablero, char icoRellenos, char icoBuenos, char icoMalos) {
+    public static int[] iniciarTablero(char[][] tablero, char icoRellenos, char icoBuenos, char icoMalos) {
 
         //Rellenamos tablero
         for (int x = 0; x < tablero.length; x++) {
@@ -73,7 +62,8 @@ public class TrabajoFinal_1ºTrimestre {
 
         //Insertar personajes
         Random random = new Random();
-        tablero[random.nextInt(tablero.length)][random.nextInt(tablero.length)] = icoBuenos;
+        int[]coordenadas_bueno = {random.nextInt(tablero.length),random.nextInt(tablero.length)};
+        tablero[coordenadas_bueno[0]][coordenadas_bueno[1]] = icoBuenos;
 
         int contadorMalos = 0;
         while (contadorMalos < 5) {
@@ -85,7 +75,7 @@ public class TrabajoFinal_1ºTrimestre {
             }
         }
 
-        return tablero;
+        return coordenadas_bueno;
     }
 
     /**
@@ -112,90 +102,64 @@ public class TrabajoFinal_1ºTrimestre {
      * @param x_bueno
      * @param y_bueno
      */
-    public static void movimiento(char[][] tablero, char teclaMovimiento, int vidas,
-            char icoBuenos, int x_bueno, int y_bueno) {
+    public static char[][] movimiento(char[][] tablero, int vidas, char icoBuenos, int x_bueno, int y_bueno) {
 
         Scanner reader = new Scanner(System.in);
 
-        while (vidas > 0) {
-            System.out.println(" ");
+        System.out.print("\n¿En qué dirección quieres mover al indio? : ");
+        char teclaMovimiento = reader.next().charAt(0);
 
-            System.out.println("¿En qué dirección quieres mover al indio?");
-            teclaMovimiento = reader.next().charAt(0);
-
-            switch (Character.toUpperCase(teclaMovimiento)) {
-
-                case 'W':
-                    if (x_bueno - 1 >= 0) {
-                        tablero[x_bueno][y_bueno] = 'C';
-                        if (tablero[x_bueno - 1][y_bueno] == 'V') {
-                            vidas--;
-                            tablero[x_bueno - 1][y_bueno] = 'I';
-                        } else {
-
-                            tablero[x_bueno - 1][y_bueno] = 'I';
-                        }
-
-                        x_bueno--;
-
+        switch (Character.toUpperCase(teclaMovimiento)) {
+            case 'W':
+                if (x_bueno - 1 >= 0) {
+                    tablero[x_bueno][y_bueno] = 'C';
+                    tablero[x_bueno - 1][y_bueno] = 'I';
+                    if (tablero[x_bueno - 1][y_bueno] == 'V') {
+                        vidas--;
                     }
+                    x_bueno--;
+                    
+                }
+                break;
 
-                    break;
-
-                case 'S':
-                    if (x_bueno + 1 >= 0) {
-                        tablero[x_bueno][y_bueno] = 'C';
-                        if (tablero[x_bueno + 1][y_bueno] == 'V') {
-                            vidas--;
-                            tablero[x_bueno + 1][y_bueno] = 'I';
-                        } else {
-
-                            tablero[x_bueno + 1][y_bueno] = 'I';
-                        }
-
-                        x_bueno++;
-
+            case 'S':
+                if (x_bueno + 1 >= 0) {
+                    tablero[x_bueno][y_bueno] = 'C';
+                    tablero[x_bueno + 1][y_bueno] = 'I';
+                    if (tablero[x_bueno + 1][y_bueno] == 'V') {
+                        vidas--;
                     }
+                    x_bueno++;
+                }
+                break;
 
-                    break;
-
-                case 'D':
-                    if (y_bueno + 1 >= 0) {
-                        tablero[x_bueno][y_bueno] = 'C';
-                        if (tablero[x_bueno][y_bueno + 1] == 'V') {
-                            vidas--;
-                            tablero[x_bueno][y_bueno + 1] = 'I';
-                        } else {
-
-                            tablero[x_bueno][y_bueno + 1] = 'I';
-                        }
-
-                        y_bueno++;
-
+            case 'D':
+                if (y_bueno + 1 >= 0) {
+                    tablero[x_bueno][y_bueno] = 'C';
+                    tablero[x_bueno][y_bueno + 1] = 'I';
+                    if (tablero[x_bueno][y_bueno + 1] == 'V') {
+                        vidas--;
                     }
-                    break;
+                    y_bueno++;
+                }
+                break;
 
-                case 'A':
-                    if (y_bueno - 1 >= 0) {
-                        tablero[x_bueno][y_bueno] = 'C';
-                        if (tablero[x_bueno][y_bueno - 1] == 'V') {
-                            vidas--;
-                            tablero[x_bueno][y_bueno - 1] = 'I';
-                        } else {
-
-                            tablero[x_bueno][y_bueno - 1] = 'I';
-                        }
-
-                        y_bueno--;
-
+            case 'A':
+                if (y_bueno - 1 >= 0) {
+                    tablero[x_bueno][y_bueno] = 'C';
+                    tablero[x_bueno][y_bueno - 1] = 'I';
+                    if (tablero[x_bueno][y_bueno - 1] == 'V') {
+                        vidas--;
                     }
-                    break;
-
-                default:
-
-            }
-
+                    y_bueno--;
+                }
+                break;
+            default:
+                System.out.println("Pulse una de las teclas de movimiento: W A S D.");
+            break;
         }
 
+        return tablero;
     }
+
 }
