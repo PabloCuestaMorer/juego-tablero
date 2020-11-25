@@ -1,4 +1,2 @@
 # juego-tablero
-Proyecto final de programación del primer trimestre
-
-By Daniel Cuesta
+Final project first quarter By Daniel Cuesta
